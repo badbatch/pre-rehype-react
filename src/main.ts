@@ -10,12 +10,7 @@ import findComponentChildren from "./helpers/findComponentChildren";
 import findPotentialChildren from "./helpers/findPotentialChildren";
 import isDevelopment from "./helpers/isDevelopment";
 import isOpeningTagNode from "./helpers/isOpeningTagNode";
-import { Environment } from "./types";
-
-export type Options = {
-  components?: string[];
-  environment?: Environment;
-};
+import { Options } from "./types";
 
 export default ({ components = [], environment = "development" }: Options = {}) => (tree: Root) => {
   visit(tree, "element", (node, index, parent) => {
