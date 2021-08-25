@@ -26,7 +26,6 @@
     "compile:types": "tsc --declaration --declarationMap --emitDeclarationOnly",
     "cutoff": "cutoff",
     "cutoff:post-version": "yarn run compile && yarn run docs",
-    "docs": "typedoc --includes ./src --out ./docs --options ./typedoc.js",
     "lint": "concurrently npm:lint:*",
     "lint:js": "eslint .",
     "lint:ts": "tslint --project ./tsconfig.json",
