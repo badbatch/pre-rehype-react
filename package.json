@@ -30,7 +30,7 @@
     "lint:js": "eslint .",
     "lint:ts": "tslint --project ./tsconfig.json",
     "publish-cutoff": "publish-cutoff",
-    "test": "jest --logHeapUsage",
+    "test": "jest --logHeapUsage --passWithNoTests`",
     "type-check": "tsc --noEmit",
     "validate": "yarn run build && yarn run lint && yarn run type-check && yarn run test && yarn run docs",
     "wipe": "del-cli ./yarn.lock ./node_modules",
