@@ -38,8 +38,9 @@
     "lint:js": "eslint .",
     "lint:ts": "tslint --project ./tsconfig.json",
     "test": "jest --logHeapUsage --passWithNoTests`",
+    "test-coverage": "codecov",
     "type-check": "tsc --noEmit",
-    "validate": "yarn run build && yarn run lint && yarn run type-check && yarn run test",
+    "validate": "yarn run build && yarn run lint && yarn run type-check && yarn run test && yarn run test-coverage",
     "wipe": "del-cli ./yarn.lock ./node_modules",
     "new-repo": "new-repo"
   },
@@ -96,6 +97,7 @@
     "@types/node": "^13.7.7",
     "babel-eslint": "^10.1.0",
     "babel-plugin-lodash": "^3.3.2",
+    "codecov": "^3.6.1",
     "concurrently": "^5.1.0",
     "core-js": "^3.6.4",
     "cross-env": "^7.0.0",
