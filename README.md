@@ -2,6 +2,7 @@
 
 A rehype plugin to enable render of any React components in markdown.
 
+![main](https://github.com/badbatch/pre-rehype-react/actions/workflows/main.yml/badge.svg)
 [![codecov](https://codecov.io/gh/badbatch/pre-rehype-react/branch/main/graph/badge.svg)](https://codecov.io/gh/badbatch/pre-rehype-react)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![npm version](https://badge.fury.io/js/pre-rehype-react.svg)](https://badge.fury.io/js/pre-rehype-react)
