@@ -21,7 +21,7 @@ export default ({ components = [], environment = "development" }: Options = {}) 
 
         if (!componentName) {
           throw new PreRehypeReactError(
-            `It was not possible to drive the component name from: ${
+            `It was not possible to derive the component name from: ${
               firstChild.value
             }. The tag must meet these regex requirements: ${CAPTURE_NAME_REGEX.toString()}`,
           );
@@ -61,7 +61,7 @@ export default ({ components = [], environment = "development" }: Options = {}) 
         }
 
         node.children = children;
-        node.properties = { ...(node.properties || {}), ...properties };
+        node.properties = { ...(node.properties ?? {}), ...properties };
         node.tagName = componentName;
       }
     } catch (e) {

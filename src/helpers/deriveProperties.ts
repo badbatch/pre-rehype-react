@@ -8,7 +8,7 @@ export default (node: Literal) => {
   const propsCapture = CAPTURE_PROPS_REGEX.exec(node.value);
   const errors: PreRehypeReactError[] = [];
 
-  if (!propsCapture) {
+  if (!propsCapture || !propsCapture[1]) {
     return { properties: {}, errors };
   }
 
