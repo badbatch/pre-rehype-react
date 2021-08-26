@@ -35,7 +35,7 @@ This is a paragraph.
 The plugin must be placed between `remark-rehype` and `rehype-react` in the `remark` pipeline like
 in the example below.
 
-Any components you want to reference witin markdown must be declared in the `pre-rehype-react` components array as well
+Any components you want to reference within markdown must be declared in the `pre-rehype-react` components array as well
 as in the `rehype-react` components object.
 
 ```javascript
