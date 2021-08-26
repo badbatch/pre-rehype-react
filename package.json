@@ -1,6 +1,6 @@
 {
   "name": "pre-rehype-react",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": false,
   "description": "A rehype plugin to enable render of any React components in markdown.",
   "repository": "git@github.com:badbatch/pre-rehype-react.git",
