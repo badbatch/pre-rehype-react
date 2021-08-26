@@ -3,7 +3,7 @@ import { visit } from "unist-util-visit";
 import PreRehypeReactError from "./errors/PreRehypeReactError";
 import areChildrenFromParent from "./helpers/areChildrenFromParent";
 import cleanUpParentChildren from "./helpers/cleanUpParentChildren";
-import deriveName, { CAPTURE_NAME_REGEX } from "./helpers/deriveName";
+import deriveName from "./helpers/deriveName";
 import deriveProperties from "./helpers/deriveProperties";
 import findClosingTagIndex from "./helpers/findClosingTagIndex";
 import findComponentChildren from "./helpers/findComponentChildren";
@@ -18,14 +18,6 @@ export default ({ components = [], environment = "development" }: Options = {}) 
       if (isOpeningTagNode(node)) {
         const firstChild = node.children[0] as Literal;
         const componentName = deriveName(firstChild);
-
-        if (!componentName) {
-          throw new PreRehypeReactError(
-            `It was not possible to derive the component name from: ${
-              firstChild.value
-            }. The tag must meet these regex requirements: ${CAPTURE_NAME_REGEX.toString()}`,
-          );
-        }
 
         if (!components.includes(componentName)) {
           throw new PreRehypeReactError(
@@ -42,11 +34,7 @@ export default ({ components = [], environment = "development" }: Options = {}) 
           );
         }
 
-        const { properties, errors } = deriveProperties(firstChild);
-
-        if (errors.length) {
-          throw errors;
-        }
+        const properties = deriveProperties(firstChild);
 
         const children = findComponentChildren(potentialChildren as ElementContent[], {
           endIndex: closingTagIndex,
