@@ -37,7 +37,7 @@
     "lint": "concurrently npm:lint:*",
     "lint:js": "eslint .",
     "lint:ts": "tslint --project ./tsconfig.json",
-    "test": "jest --logHeapUsage --passWithNoTests`",
+    "test": "jest --logHeapUsage --passWithNoTests",
     "test-coverage": "codecov",
     "type-check": "tsc --noEmit",
     "validate": "yarn run build && yarn run lint && yarn run type-check && yarn run test && yarn run test-coverage",
