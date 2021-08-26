@@ -1,9 +1,11 @@
 import { Content, Element, Literal, Node } from "hast";
+import { template } from "lodash";
 import { is } from "unist-util-is";
+import { Regexes } from "../types";
 
-const makeClosingTagRegex = (tagName: string) => new RegExp(`^\\[\\/${tagName}\\]`);
+export const CLOSING_TAG_TEMPLATE = "^\\[\\/${componentName}\\]"; // tslint:disable-line:no-invalid-template-strings
 
-export default (componentName: string, potentialChildren: Content[]) =>
+export default (componentName: string, potentialChildren: Content[], { closingTag = CLOSING_TAG_TEMPLATE }: Regexes) =>
   potentialChildren.findIndex((node: Node) => {
     if (!is(node, "element")) {
       return false;
@@ -15,5 +17,6 @@ export default (componentName: string, potentialChildren: Content[]) =>
       return false;
     }
 
-    return makeClosingTagRegex(componentName).test((element.children[0] as Literal).value);
+    const regex = template(closingTag)({ componentName });
+    return new RegExp(regex).test((element.children[0] as Literal).value);
   });

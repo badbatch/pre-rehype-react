@@ -8,4 +8,13 @@ export type Indexes = {
 export type Options = {
   components?: string[];
   environment?: Environment;
+  regexes?: Regexes;
+};
+
+export type Regexes = {
+  captureName?: RegExp;
+  captureProps?: RegExp;
+  closingTag?: string;
+  openingTag?: RegExp;
+  splitProps?: RegExp;
 };

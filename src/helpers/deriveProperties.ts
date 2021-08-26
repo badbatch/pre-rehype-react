@@ -1,10 +1,11 @@
 import { Literal, Properties } from "hast";
+import { Regexes } from "../types";
 
 export const CAPTURE_PROPS_REGEX = /^\[[A-Za-z0-9]+(( [A-Za-z0-9]+=("[A-Za-z0-9-_',. ]+"|true|false|\d+))*)\]/;
-export const PROPS_SPLIT_REGEX = /([A-Za-z0-9]+="[A-Za-z0-9-_',. ]+"|[A-Za-z0-9]+=true|[A-Za-z0-9]+=false|[A-Za-z0-9]+=\d+)/;
+export const SPLIT_PROPS_REGEX = /([A-Za-z0-9]+="[A-Za-z0-9-_',. ]+"|[A-Za-z0-9]+=true|[A-Za-z0-9]+=false|[A-Za-z0-9]+=\d+)/;
 
-export default (node: Literal) => {
-  const propsCapture = CAPTURE_PROPS_REGEX.exec(node.value) as RegExpExecArray;
+export default (node: Literal, { captureProps = CAPTURE_PROPS_REGEX, splitProps = SPLIT_PROPS_REGEX }: Regexes) => {
+  const propsCapture = captureProps.exec(node.value) as RegExpExecArray;
 
   if (!propsCapture[1]) {
     return {};
@@ -12,7 +13,7 @@ export default (node: Literal) => {
 
   return propsCapture[1]
     .trim()
-    .split(PROPS_SPLIT_REGEX)
+    .split(splitProps)
     .reduce((acc, split) => {
       if (split.trim()) {
         acc.push(split);

@@ -12,12 +12,12 @@ import isDevelopment from "./helpers/isDevelopment";
 import isOpeningTagNode from "./helpers/isOpeningTagNode";
 import { Options } from "./types";
 
-export default ({ components = [], environment = "development" }: Options = {}) => (tree: Root) => {
+export default ({ components = [], environment = "development", regexes = {} }: Options = {}) => (tree: Root) => {
   visit(tree, "element", (node, index, parent) => {
     try {
-      if (isOpeningTagNode(node)) {
+      if (isOpeningTagNode(node, regexes)) {
         const firstChild = node.children[0] as Literal;
-        const componentName = deriveName(firstChild);
+        const componentName = deriveName(firstChild, regexes);
 
         if (!components.includes(componentName)) {
           throw new PreRehypeReactError(
@@ -26,7 +26,7 @@ export default ({ components = [], environment = "development" }: Options = {}) 
         }
 
         const potentialChildren = findPotentialChildren(node, parent as Parent);
-        const closingTagIndex = findClosingTagIndex(componentName, potentialChildren);
+        const closingTagIndex = findClosingTagIndex(componentName, potentialChildren, regexes);
 
         if (closingTagIndex === -1) {
           throw new PreRehypeReactError(
@@ -34,7 +34,7 @@ export default ({ components = [], environment = "development" }: Options = {}) 
           );
         }
 
-        const properties = deriveProperties(firstChild);
+        const properties = deriveProperties(firstChild, regexes);
 
         const children = findComponentChildren(potentialChildren as ElementContent[], {
           endIndex: closingTagIndex,
