@@ -6,6 +6,16 @@
   "repository": "git@github.com:badbatch/pre-rehype-react.git",
   "license": "MIT",
   "author": "Dylan Aubrey <dylanaubrey@gmail.com>",
+  "keywords": [
+    "unified",
+    "rehype",
+    "rehype-plugin",
+    "remark",
+    "plugin",
+    "html",
+    "hast",
+    "react"
+  ],
   "main": "lib/main/index.js",
   "module": "lib/module/index.js",
   "browser": "lib/browser/index.js",
