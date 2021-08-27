@@ -64,7 +64,7 @@ export default markdown => {
 ## Feedback
 
 Please report issues/make feature requests using the [issues tracker](https://github.com/badbatch/pre-rehype-react/issues)
-and I will endeavour to fix them as soon as possible.
+and I will action them as soon as possible.
 
 ## Changelog
 
