@@ -3,7 +3,14 @@
   "version": "0.0.8",
   "private": false,
   "description": "A rehype plugin to enable render of any React components in markdown.",
-  "repository": "git@github.com:badbatch/pre-rehype-react.git",
+  "homepage": "https://github.com/badbatch/pre-rehype-react",
+  "bugs": {
+    "url": "https://github.com/badbatch/pre-rehype-react/issues"
+  },
+  "repository": {
+    "type":  "git",
+    "url": "git@github.com:badbatch/pre-rehype-react.git"
+  },
   "license": "MIT",
   "author": "Dylan Aubrey <dylanaubrey@gmail.com>",
   "keywords": [
