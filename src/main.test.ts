@@ -114,80 +114,145 @@ describe("preRehypeReact", () => {
     );
   });
 
-  test("when component is parsed correctly", () => {
-    const tree = makeTree([
-      "element",
-      "text",
-      ["element", { children: [["text", { value: "[callout]" }]] }],
-      "text",
-      ["element", { children: [["text", { value: "This is a heading" }]], tagName: "h4" }],
-      "text",
-      ["element", { children: [["text", { value: "This is a paragraph" }]], tagName: "p" }],
-      "text",
-      ["element", { children: [["text", { value: "[/callout]" }]] }],
-      "text",
-      "element",
-    ]);
+  describe("when component is parsed correctly", () => {
+    test("when the component markdown is split into separate nodes", () => {
+      const tree = makeTree([
+        "element",
+        "text",
+        ["element", { children: [["text", { value: "[callout]" }]] }],
+        ["element", { tagName: "br" }],
+        "text",
+        ["element", { children: [["text", { value: "This is a heading" }]], tagName: "h4" }],
+        "text",
+        ["element", { children: [["text", { value: "This is a paragraph" }]], tagName: "p" }],
+        "text",
+        ["element", { tagName: "br" }],
+        ["element", { children: [["text", { value: "[/callout]" }]] }],
+        "text",
+        "element",
+      ]);
 
-    preRehypeReact({ components: ["callout"] })(tree);
+      preRehypeReact({ components: ["callout"] })(tree);
 
-    expect(tree).toEqual({
-      children: [
-        {
-          children: [],
-          properties: {},
-          tagName: "div",
-          type: "element",
-        },
-        {
-          type: "text",
-          value: "\n",
-        },
-        {
-          children: [
-            {
-              children: [
-                {
-                  type: "text",
-                  value: "This is a heading",
-                },
-              ],
-              properties: {},
-              tagName: "h4",
-              type: "element",
-            },
-            {
-              type: "text",
-              value: "\n",
-            },
-            {
-              children: [
-                {
-                  type: "text",
-                  value: "This is a paragraph",
-                },
-              ],
-              properties: {},
-              tagName: "p",
-              type: "element",
-            },
-          ],
-          properties: {},
-          tagName: "callout",
-          type: "element",
-        },
-        {
-          type: "text",
-          value: "\n",
-        },
-        {
-          children: [],
-          properties: {},
-          tagName: "div",
-          type: "element",
-        },
-      ],
-      type: "root",
+      expect(tree).toEqual({
+        children: [
+          {
+            children: [],
+            properties: {},
+            tagName: "div",
+            type: "element",
+          },
+          {
+            type: "text",
+            value: "\n",
+          },
+          {
+            children: [
+              {
+                children: [
+                  {
+                    type: "text",
+                    value: "This is a heading",
+                  },
+                ],
+                properties: {},
+                tagName: "h4",
+                type: "element",
+              },
+              {
+                type: "text",
+                value: "\n",
+              },
+              {
+                children: [
+                  {
+                    type: "text",
+                    value: "This is a paragraph",
+                  },
+                ],
+                properties: {},
+                tagName: "p",
+                type: "element",
+              },
+            ],
+            properties: {},
+            tagName: "callout",
+            type: "element",
+          },
+          {
+            type: "text",
+            value: "\n",
+          },
+          {
+            children: [],
+            properties: {},
+            tagName: "div",
+            type: "element",
+          },
+        ],
+        type: "root",
+      });
+    });
+
+    test("when the component markdown is NOT split into separate nodes", () => {
+      const tree = makeTree([
+        [
+          "element",
+          {
+            children: [
+              ["text", { value: "[callout]" }],
+              ["element", { tagName: "br" }],
+              ["element", { children: [["text", { value: "This is a heading" }]], tagName: "h4" }],
+              "text",
+              ["element", { children: [["text", { value: "This is a paragraph" }]], tagName: "p" }],
+              "text",
+              ["element", { tagName: "br" }],
+              ["text", { value: "[/callout]" }],
+            ],
+          },
+        ],
+      ]);
+
+      preRehypeReact({ components: ["callout"] })(tree);
+
+      expect(tree).toEqual({
+        children: [
+          {
+            children: [
+              {
+                children: [
+                  {
+                    type: "text",
+                    value: "This is a heading",
+                  },
+                ],
+                properties: {},
+                tagName: "h4",
+                type: "element",
+              },
+              {
+                type: "text",
+                value: "\n",
+              },
+              {
+                children: [
+                  {
+                    type: "text",
+                    value: "This is a paragraph",
+                  },
+                ],
+                properties: {},
+                tagName: "p",
+                type: "element",
+              },
+            ],
+            properties: {},
+            tagName: "callout",
+            type: "element",
+          },
+        ],
+        type: "root",
+      });
     });
   });
 
@@ -214,6 +279,7 @@ describe("preRehypeReact", () => {
       "text",
       ["element", { children: [["text", { value: "This is a paragraph" }]], tagName: "p" }],
       "text",
+      ["element", { tagName: "br" }],
       ["element", { children: [["text", { value: "[/callout]" }]] }],
       "text",
       "element",
@@ -279,6 +345,93 @@ describe("preRehypeReact", () => {
           children: [],
           properties: {},
           tagName: "div",
+          type: "element",
+        },
+      ],
+      type: "root",
+    });
+  });
+
+  test("when the component markdown has been separated into separate nodes", () => {
+    const tree = makeTree([
+      [
+        "element",
+        {
+          children: [
+            [
+              "text",
+              {
+                value: '[expander title="Expander title"]',
+              },
+            ],
+            [
+              "element",
+              {
+                tagName: "br",
+              },
+            ],
+            "text",
+            [
+              "text",
+              {
+                value: "First paragraph of text",
+              },
+            ],
+          ],
+        },
+      ],
+      "text",
+      [
+        "element",
+        {
+          children: [
+            [
+              "text",
+              {
+                value: "Second paragraph of text",
+              },
+            ],
+            [
+              "element",
+              {
+                tagName: "br",
+              },
+            ],
+            "text",
+            [
+              "text",
+              {
+                value: "[/expander]",
+              },
+            ],
+          ],
+        },
+      ],
+    ]);
+
+    preRehypeReact({ components: ["expander"] })(tree);
+
+    expect(tree).toEqual({
+      children: [
+        {
+          children: [
+            {
+              type: "text",
+              value: "First paragraph of text",
+            },
+            {
+              type: "text",
+              value: "\n",
+            },
+            {
+              type: "text",
+              value: "Second paragraph of text",
+            },
+          ],
+          properties: {
+            title: "Expander title",
+          },
+          tagName: "expander",
           type: "element",
         },
       ],

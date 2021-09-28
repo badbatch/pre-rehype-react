@@ -1,7 +1,7 @@
 import { ElementContent, Literal, Parent, Root } from "hast";
+import { isUndefined } from "lodash";
 import { visit } from "unist-util-visit";
 import PreRehypeReactError from "./errors/PreRehypeReactError";
-import areChildrenFromParent from "./helpers/areChildrenFromParent";
 import cleanUpParentChildren from "./helpers/cleanUpParentChildren";
 import deriveName from "./helpers/deriveName";
 import deriveProperties from "./helpers/deriveProperties";
@@ -25,7 +25,14 @@ export default ({ components = [], environment = "development", regexes = {} }: 
           );
         }
 
-        const potentialChildren = findPotentialChildren(node, parent as Parent);
+        const { fromParent, parentClosingTagIndex, potentialChildren } = findPotentialChildren(
+          node,
+          index,
+          parent as Parent,
+          componentName,
+          regexes,
+        );
+
         const closingTagIndex = findClosingTagIndex(componentName, potentialChildren, regexes);
 
         if (closingTagIndex === -1) {
@@ -41,9 +48,9 @@ export default ({ components = [], environment = "development", regexes = {} }: 
           startIndex: index ?? 0,
         });
 
-        if (areChildrenFromParent(node, parent as Parent)) {
+        if (fromParent) {
           cleanUpParentChildren(parent as Parent, {
-            endIndex: closingTagIndex,
+            endIndex: isUndefined(parentClosingTagIndex) ? closingTagIndex : parentClosingTagIndex,
             startIndex: index ?? 0,
           });
         }

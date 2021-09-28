@@ -7,16 +7,15 @@ export const CLOSING_TAG_TEMPLATE = "^\\[\\/${componentName}\\]"; // tslint:disa
 
 export default (componentName: string, potentialChildren: Content[], { closingTag = CLOSING_TAG_TEMPLATE }: Regexes) =>
   potentialChildren.findIndex((node: Node) => {
-    if (!is(node, "element")) {
-      return false;
+    if (is(node, "text") || (is(node, "element") && is((node as Element).children[0], "text"))) {
+      const regex = template(closingTag)({ componentName });
+
+      if (is(node, "text")) {
+        return new RegExp(regex).test((node as Literal).value);
+      }
+
+      return new RegExp(regex).test(((node as Element).children[0] as Literal).value);
     }
 
-    const element = node as Element;
-
-    if (!is(element.children[0], "text")) {
-      return false;
-    }
-
-    const regex = template(closingTag)({ componentName });
-    return new RegExp(regex).test((element.children[0] as Literal).value);
+    return false;
   });
