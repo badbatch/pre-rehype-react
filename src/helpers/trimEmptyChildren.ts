@@ -1,7 +1,7 @@
 import { Element, ElementContent, Literal } from "hast";
 import { is } from "unist-util-is";
 
-const trimEmptyChildren = (children: ElementContent[]) => {
+const trimEmptyChildren = (children: ElementContent[]): ElementContent[] => {
   let hasChanged = false;
 
   if (
