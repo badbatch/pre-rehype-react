@@ -25,7 +25,7 @@ export default ({ components = [], environment = "development", regexes = {} }: 
           );
         }
 
-        const { fromParent, parentClosingTagIndex, potentialChildren } = findPotentialChildren(
+        const { fromParent, parentClosingTagIndex, potentialChildren, startingTaxIndex } = findPotentialChildren(
           node,
           index,
           parent as Parent,
@@ -45,13 +45,13 @@ export default ({ components = [], environment = "development", regexes = {} }: 
 
         const children = findComponentChildren(potentialChildren as ElementContent[], {
           endIndex: closingTagIndex,
-          startIndex: index ?? 0,
+          startIndex: startingTaxIndex,
         });
 
         if (fromParent) {
           cleanUpParentChildren(parent as Parent, {
             endIndex: isUndefined(parentClosingTagIndex) ? closingTagIndex : parentClosingTagIndex,
-            startIndex: index ?? 0,
+            startIndex: startingTaxIndex,
           });
         }
 
